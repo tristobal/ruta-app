@@ -1,0 +1,10 @@
+<ion-view view-title="Lista">
+    <ion-content>
+        <ion-list>
+            <ion-item ng-show="!list.length">Listado vacío</ion-item>
+            <ion-item ng-repeat="item in list" href="#/app/list/{{item.id}}">
+                {{item.nombre}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
