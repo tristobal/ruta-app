@@ -55,8 +55,10 @@ angular.module('ruta.controllers', [])
     };
 
     $scope.marker = {
-        latitude: $scope.local.lat,
-        longitude: $scope.local.long,
+        coords: {
+            latitude: $scope.local.lat,
+            longitude: $scope.local.long
+        },
         title: $scope.local.nombre,
         id: $scope.local.id,
         show: false
