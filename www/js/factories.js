@@ -14,7 +14,7 @@ angular.module('ruta.factories', [])
             var localesString = window.localStorage['locales'];
             var locales = [];
             if(localesString) {
-                locales = angular.fromJson(localesString);
+                locales = angular.fromJson(localesString);W
             }
             local.id = locales.length + 1;
             locales.push(local);

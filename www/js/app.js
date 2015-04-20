@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-google-place'])
+angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-google-place', 'uiGmapgoogle-maps'])
 
 .run(function($ionicPlatform, $rootScope, $state) {
     $rootScope.$state = $state;
@@ -21,7 +21,7 @@ angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-goog
     });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     $stateProvider
 
     .state('app', {
@@ -40,11 +40,12 @@ angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-goog
         }
     })
 
-    .state('app.browse', {
-        url: "/browse",
+    .state('app.map', {
+        url: "/map",
         views: {
             'menuContent': {
-                templateUrl: "templates/browse.html"
+                templateUrl: "templates/map.html",
+                controller: "MapCtrl"
             }
         }
     })
@@ -82,4 +83,10 @@ angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-goog
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/list');
+
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es',
+        v: '3.17',
+        libraries: 'weather,geometry,visualization'
+    });
 });

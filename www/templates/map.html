@@ -1,0 +1,15 @@
+<ion-view view-title="Mapa">
+    <ion-content scroll="false" data-tap-disabled="true">
+        <div id="map_canvas">
+            <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
+
+                <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" click="onClick()">
+                    <ui-gmap-windows show="show">
+                        <div ng-non-bindable>{{title}}</div>
+                    </ui-gmap-windows>
+                </ui-gmap-markers>
+
+            </ui-gmap-google-map>
+        </div>
+    </ion-content>
+</ion-view>

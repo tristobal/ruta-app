@@ -1,19 +1,41 @@
 <ion-view view-title="Detalle">
     <ion-content>
-
-
         <div class="card">
-          <div class="item item-divider">
-              {{local.nombre}}
-          </div>
-          <div class="item item-text-wrap">
-             [ {{local.lat}},  {{local.long}} ]
-          </div>
-          <div class="item item-divider">
-              {{local.notas}}
-          </div>
+            <div class="item item-divider">
+                {{local.nombre}}
+            </div>
+            <div class="item item-body">
+                <div id="map_canvas" style="height: 400px;">
+                    <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options">
+                        <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+                        </ui-gmap-marker>
+                    </ui-gmap-google-map>
+                </div>
+            </div>
+            <div class="item item-icon-left">
+                <i class="ionicons ion-clipboard"></i>
+                {{local.notas}}
+            </div>
         </div>
-
-
     </ion-content>
+    <!--
+    <ion-content>
+        <ion-tabs class="tabs-positive tabs-icon-only">
+
+          <ion-tab title="Lorem" icon-on="ion-ios-filing" icon-off="ion-ios-filing-outline">
+          <h1>LOREM</h1>
+          </ion-tab>
+
+          <ion-tab title="Ipsum" icon-on="ion-ios-clock" icon-off="ion-ios-clock-outline">
+          <h1>IPSUM</h1>
+          </ion-tab>
+
+          <ion-tab title="Dolor" icon-on="ion-ios-gear" icon-off="ion-ios-gear-outline">
+            <h1>DOLOR</h1>
+          </ion-tab>
+
+        </ion-tabs>
+    </ion-content>
+    -->
+
 </ion-view>

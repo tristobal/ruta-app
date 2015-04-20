@@ -44,6 +44,24 @@ angular.module('ruta.controllers', [])
 .controller('DetailCtrl', function($scope, $stateParams, LocalesFactory) {
     var listid = $stateParams.listId;
     $scope.local = LocalesFactory.getById( listid );
+
+    $scope.map = {
+        center: {
+            latitude: $scope.local.lat,
+            longitude: $scope.local.long
+        },
+        zoom: 16,
+        bounds: {}
+    };
+
+    $scope.marker = {
+        latitude: $scope.local.lat,
+        longitude: $scope.local.long,
+        title: $scope.local.nombre,
+        id: $scope.local.id,
+        show: false
+    };
+    console.log($scope.marker);
 })
 
 .controller('AddCtrl', function($scope, LocalesFactory, $state) {
@@ -54,4 +72,54 @@ angular.module('ruta.controllers', [])
         LocalesFactory.save($scope.local);
         $state.go("app.list");
     };
-});
+})
+
+.controller('MapCtrl', function($scope, LocalesFactory) {
+    $scope.locales = LocalesFactory.getAll();
+    $scope.map = {
+        center: {
+            latitude: -33.4374848,
+            longitude: -70.63586149999998
+        },
+        zoom: 16,
+        bounds: {}
+    };
+    /*$scope.options = {
+        scrollwheel: false
+    };*/
+
+    $scope.markers = [];
+    var markersArray = [];
+    for (var i = 0; i < $scope.locales.length; i++) {
+        markersArray.push({
+            latitude: $scope.locales[i].lat,
+            longitude: $scope.locales[i].long,
+            title: $scope.locales[i].nombre,
+            id: $scope.locales[i].id,
+            show: false
+        });
+    }
+    $scope.markers = markersArray;
+
+    // Get the bounds from the map once it's loaded
+    /*$scope.$watch(function() {
+        return $scope.map.bounds;
+    }, function(nv, ov) {
+        // Only need to regenerate once
+        if (!ov.southwest && nv.southwest) {
+            var markers = [];
+            for (var i = 0; i < $scope.locales.length; i++) {
+                markers.push({
+                    latitude: $scope.locales[i].lat,
+                    longitude: $scope.locales[i].long,
+                    title: $scope.locales[i].nombre,
+                    id: $scope.locales[i].id,
+                });
+            }
+            $scope.randomMarkers = markers;
+        }
+    }, true);*/
+
+})
+
+;
