@@ -21,6 +21,17 @@ angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-goog
     });
 })
 
+.directive('stopEvent', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            element.bind('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+    };
+})
+
 .config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
     $stateProvider
 

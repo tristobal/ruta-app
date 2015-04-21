@@ -23,3 +23,16 @@
     right: 0;
     left: 0;
 }
+
+
+
+/*Solution for html*/
+.item-checkbox .checkbox{
+    z-index: -1 !important;
+}
+
+
+/*Solution for the Directive*/
+.item-content.disable-pointer-events{
+    pointer-events: initial !important
+}

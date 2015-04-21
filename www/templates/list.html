@@ -1,10 +1,30 @@
 <ion-view view-title="Lista">
     <ion-content>
-        <ion-list>
+        <ul class="list">
             <ion-item ng-show="!list.length">Listado vacío</ion-item>
-            <ion-item ng-repeat="item in list" href="#/app/list/{{item.id}}">
-                {{item.nombre}}
-            </ion-item>
-        </ion-list>
+            <!--
+            <li ng-repeat="item in list" class="item item-checkbox item-icon-right">
+                <div class="checkbox">
+                    <input type="checkbox">
+                </div>
+                <span ng-click="click( {{item.id}} )">
+                    {{item.nombre}}
+                    <div>
+                        <i class="icon ion-chevron-right" ></i>
+                    </div>
+                </span>
+            </li>
+            -->
+
+            <li ng-repeat="item in list" class="item item-checkbox item-icon-right">
+                <label class="checkbox">
+                    <input type="checkbox" ng-checked="item.marked" ng-click="mark( item )">
+                </label>
+                <span ng-click="seeDetail( {{item.id}} )">
+                    {{item.nombre}}
+                    <i class="icon ion-chevron-right" ></i>
+                </span>
+            </li>
+        </ul>
     </ion-content>
 </ion-view>

@@ -37,8 +37,15 @@ angular.module('ruta.controllers', [])
     };
 })
 
-.controller('ListCtrl', function($scope, LocalesFactory) {
+.controller('ListCtrl', function($scope, LocalesFactory, $state) {
     $scope.list = LocalesFactory.getAll();
+    $scope.seeDetail = function(input) {
+        $state.go("app.detail",  {"listId" : input} );
+    };
+    $scope.mark = function(item) {
+        item.marked = !item.marked;
+        LocalesFactory.save(item);
+    };
 })
 
 .controller('DetailCtrl', function($scope, $stateParams, LocalesFactory) {
@@ -63,7 +70,6 @@ angular.module('ruta.controllers', [])
         id: $scope.local.id,
         show: false
     };
-    console.log($scope.marker);
 })
 
 .controller('AddCtrl', function($scope, LocalesFactory, $state) {
@@ -71,12 +77,13 @@ angular.module('ruta.controllers', [])
     $scope.add = function() {
         $scope.local.lat = $scope.local.location.geometry.location.k;
         $scope.local.long = $scope.local.location.geometry.location.D;
-        LocalesFactory.save($scope.local);
+        $scope.marked = false;
+        LocalesFactory.add($scope.local);
         $state.go("app.list");
     };
 })
 
-.controller('MapCtrl', function($scope, LocalesFactory) {
+.controller('MapCtrl', function($scope, LocalesFactory, $ionicPopup, $state) {
     $scope.locales = LocalesFactory.getAll();
     $scope.map = {
         center: {
@@ -91,6 +98,14 @@ angular.module('ruta.controllers', [])
     };*/
 
     $scope.markers = [];
+
+    if ( $scope.locales.length === 0 ) {
+        var alertPopup = $ionicPopup.alert({
+            title: 'ERROR',
+            template: 'Aún no se han agregado locales'
+        });
+    }
+
     var markersArray = [];
     for (var i = 0; i < $scope.locales.length; i++) {
         markersArray.push({
@@ -102,6 +117,7 @@ angular.module('ruta.controllers', [])
         });
     }
     $scope.markers = markersArray;
+
 
     // Get the bounds from the map once it's loaded
     /*$scope.$watch(function() {

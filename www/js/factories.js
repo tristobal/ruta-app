@@ -10,11 +10,11 @@ angular.module('ruta.factories', [])
                 return [];
             }
         },
-        save: function(local) {
+        add: function(local) {
             var localesString = window.localStorage['locales'];
             var locales = [];
             if(localesString) {
-                locales = angular.fromJson(localesString);W
+                locales = angular.fromJson(localesString);
             }
             local.id = locales.length + 1;
             locales.push(local);
@@ -28,6 +28,24 @@ angular.module('ruta.factories', [])
             }
             var pos = id - 1;
             return locales[pos];
+        },
+        save: function(local) {
+            var localesString = window.localStorage['locales'];
+            var locales = [];
+            if(localesString) {
+                locales = angular.fromJson(localesString);
+            }
+            for (var i = 0; i < locales.length; i++) {
+                if (local.id === locales[i].id) {
+                    locales[i].lat = local.lat;
+                    locales[i].long = local.long;
+                    locales[i].nombre = local.nombre;
+                    locales[i].location = local.location;
+                    locales[i].marked = local.marked;
+                    locales[i].notas = local.notas;
+                }
+            }
+            window.localStorage['locales'] = JSON.stringify(locales);
         }
     };
 });
