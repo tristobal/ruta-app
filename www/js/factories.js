@@ -48,4 +48,25 @@ angular.module('ruta.factories', [])
             window.localStorage['locales'] = JSON.stringify(locales);
         }
     };
-});
+})
+
+.factory('LoginFactory', function($http) {
+
+    //var urlBase = "http://localhost:5000";
+    var urlBase = "https://rodotrans-rest.herokuapp.com";
+
+    var service = {
+        getToken : getToken
+    };
+
+    return service;
+
+    function getToken(json) {
+        return $http.post(urlBase + "/token", json);
+    }
+
+})
+
+
+
+;

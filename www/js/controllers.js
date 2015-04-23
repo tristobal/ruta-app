@@ -1,8 +1,18 @@
 angular.module('ruta.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $ionicSideMenuDelegate) {
+.controller('AppCtrl', function($scope, $ionicModal, $state, $ionicSideMenuDelegate, LoginFactory, $ionicLoading, store, $ionicPopup) {
     // Form data for the login modal
     $scope.loginData = {};
+
+    //$scope.isLogged = false;
+    $scope.isLogged = function(){
+        var existsToken = store.get('jwt');
+        if ( existsToken ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -25,11 +35,42 @@ angular.module('ruta.controllers', [])
     $scope.doLogin = function() {
         console.log('Doing login', $scope.loginData);
 
-        // Simulate a login delay. Remove this and replace with your login
-        // code if using a login system
-        $timeout(function() {
+        $scope.loading = $ionicLoading.show({
+            content: 'Consultando...',
+            showBackdrop: false
+        });
+
+        LoginFactory.getToken($scope.loginData)
+        .success(function (data) {
+            $ionicLoading.hide();
+            //$scope.isLogged = true;
+            store.set('jwt', data.token);
             $scope.closeLogin();
-        }, 1000);
+        })
+        .error(function (error) {
+            store.remove('jwt');
+            console.log("ERROR = " + error );
+            $ionicLoading.hide();
+            var alertPopup = $ionicPopup.alert({
+                title: 'Error de autenticación',
+                template: 'Revisa tu usuario y/o password'
+            });
+        });
+
+    };
+
+    $scope.logout = function() {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Logout',
+            template: '¿Estás seguro de que quieres salir?'
+        });
+        confirmPopup.then(function(res) {
+            if(res) {
+                //$scope.isLogged = true;
+                store.remove('jwt');
+                $state.go("app.list");
+            }
+        });
     };
 
     $scope.addSangucheria = function() {
@@ -94,49 +135,29 @@ angular.module('ruta.controllers', [])
         bounds: {}
     };
     /*$scope.options = {
-        scrollwheel: false
-    };*/
+    scrollwheel: false
+};*/
 
-    $scope.markers = [];
+$scope.markers = [];
 
-    if ( $scope.locales.length === 0 ) {
-        var alertPopup = $ionicPopup.alert({
-            title: 'ERROR',
-            template: 'Aún no se han agregado locales'
-        });
-    }
+if ( $scope.locales.length === 0 ) {
+    var alertPopup = $ionicPopup.alert({
+        title: 'ERROR',
+        template: 'Aún no se han agregado locales'
+    });
+}
 
-    var markersArray = [];
-    for (var i = 0; i < $scope.locales.length; i++) {
-        markersArray.push({
-            latitude: $scope.locales[i].lat,
-            longitude: $scope.locales[i].long,
-            title: $scope.locales[i].nombre,
-            id: $scope.locales[i].id,
-            show: false
-        });
-    }
-    $scope.markers = markersArray;
-
-
-    // Get the bounds from the map once it's loaded
-    /*$scope.$watch(function() {
-        return $scope.map.bounds;
-    }, function(nv, ov) {
-        // Only need to regenerate once
-        if (!ov.southwest && nv.southwest) {
-            var markers = [];
-            for (var i = 0; i < $scope.locales.length; i++) {
-                markers.push({
-                    latitude: $scope.locales[i].lat,
-                    longitude: $scope.locales[i].long,
-                    title: $scope.locales[i].nombre,
-                    id: $scope.locales[i].id,
-                });
-            }
-            $scope.randomMarkers = markers;
-        }
-    }, true);*/
+var markersArray = [];
+for (var i = 0; i < $scope.locales.length; i++) {
+    markersArray.push({
+        latitude: $scope.locales[i].lat,
+        longitude: $scope.locales[i].long,
+        title: $scope.locales[i].nombre,
+        id: $scope.locales[i].id,
+        show: false
+    });
+}
+$scope.markers = markersArray;
 
 })
 

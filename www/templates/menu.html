@@ -8,7 +8,7 @@
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button ng-show="$state.includes('app.list')" class="button button-icon button-clear ionicons ion-plus-round" ng-click="addSangucheria()">
+                <button ng-show="$state.includes('app.list') && isLogged()" class="button button-icon button-clear ionicons ion-plus-round" ng-click="addSangucheria()">
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -21,16 +21,19 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item nav-clear menu-close ng-click="login()">
-                    Login
+                <ion-item nav-clear menu-close ng-click="login()" ng-hide="isLogged()">
+                    <div class="icon_row"><i class="ionicons ion-log-in"></i></div>&nbsp;Login
                 </ion-item>
                 <ion-item nav-clear menu-close href="#/app/list">
-                    Listado
+                    <div class="icon_row"><i class="ionicons ion-ios-list-outline"></i></div>&nbsp;Listado
                 </ion-item>
                 <ion-item nav-clear menu-close href="#/app/map">
-                    Mapa
+                    <div class="icon_row"><i class="ionicons ion-map"></i></div>&nbsp;Mapa
                 </ion-item>
             </ion-list>
         </ion-content>
+        <ion-footer-bar class="bar-stable" ng-click="logout()" ng-show="isLogged()">
+          <h1 class="title" ><i class="ionicons ion-log-out"></i>&nbsp;Logout</h1>
+        </ion-footer-bar>
     </ion-side-menu>
 </ion-side-menus>

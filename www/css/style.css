@@ -36,3 +36,9 @@
 .item-content.disable-pointer-events{
     pointer-events: initial !important
 }
+
+.icon_row {
+  width: 30px;
+  text-align: center;
+  display:inline-block;
+}

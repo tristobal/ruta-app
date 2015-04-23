@@ -1,10 +1,12 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-google-place', 'uiGmapgoogle-maps'])
+angular.module('ruta', [
+    'ionic',
+    'ruta.controllers',
+    'ruta.factories',
+    'ruta.constants',
+    'ion-google-place',
+    'uiGmapgoogle-maps',
+    'angular-storage'
+])
 
 .run(function($ionicPlatform, $rootScope, $state) {
     $rootScope.$state = $state;
@@ -19,6 +21,7 @@ angular.module('ruta', ['ionic', 'ruta.controllers', 'ruta.factories', 'ion-goog
             StatusBar.styleDefault();
         }
     });
+
 })
 
 .directive('stopEvent', function () {

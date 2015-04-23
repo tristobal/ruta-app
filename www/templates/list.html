@@ -2,20 +2,6 @@
     <ion-content>
         <ul class="list">
             <ion-item ng-show="!list.length">Listado vacío</ion-item>
-            <!--
-            <li ng-repeat="item in list" class="item item-checkbox item-icon-right">
-                <div class="checkbox">
-                    <input type="checkbox">
-                </div>
-                <span ng-click="click( {{item.id}} )">
-                    {{item.nombre}}
-                    <div>
-                        <i class="icon ion-chevron-right" ></i>
-                    </div>
-                </span>
-            </li>
-            -->
-
             <li ng-repeat="item in list" class="item item-checkbox item-icon-right">
                 <label class="checkbox">
                     <input type="checkbox" ng-checked="item.marked" ng-click="mark( item )">
