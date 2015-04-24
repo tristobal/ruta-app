@@ -158,4 +158,45 @@ $scope.markers = markersArray;
 
 })
 
+
+.controller('JWSCtrl', function($scope) {
+    //VERIFYING THE TOKEN
+    var sJWS = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE0Mjk4ODc5NzF9.aNDXY4pZAJTPRNyiOp6cwlD1tjPmv5crwe8J4mNrUb_iST7mv8VWJ2a8eHxKKAGGGIb-cjcKtoELyuNjUggzc7TeRsoonoVI1LmZjMhsTLJVcVtEVn6ZF7uwQEjE-YR37RAlAdFbPnf_hJLowZYy2tR9lvAmQLR4hr__dzyps2z9midtE3Sl6CZ1lX-OJwLR5V71DvIsfsjdr9RnLmUPvWOZgZFHoW4aRMf1RrtP4o8kOedgYBcJceJad8h4PNxsaqKj4ayXCbLkXw19TvfwSyZ-9AN81Qfkvd1gCvauPHJE6q-q7OEqzkzZ2unNNp5-13j85gwoXE_99t56XXnIBQ";
+    var sPemX509Cert = "-----BEGIN CERTIFICATE-----"+
+"MIIDXTCCAkWgAwIBAgIJAJ47j5+A//fJMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV"+
+"BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX"+
+"aWRnaXRzIFB0eSBMdGQwHhcNMTUwNDI0MTUwMDM4WhcNMTYwNDIzMTUwMDM4WjBF"+
+"MQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50"+
+"ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB"+
+"CgKCAQEAnLuxFWhbZ2S5kSCnR7SkBy6HF5ud0XDMhcKH1nwCMQye12LRMcRUEzG7"+
+"st/kBhHtNmnhnttKIz8XOV/Fg3cvWrpTGs3Nf3Ph+abprZjyYJOFL8RfeXBeOmNg"+
+"T3mfMg57MgXegSpWzjgbyLo1zONwa1uPBLot4OQerWm0IRmlW8e3Zguta0qywBYT"+
+"6/GQDWm2ESCmaWL3JbHXVnT+TiZQJNe2rQ2snsLXcijNeaHKUoCIgOcE+FweSiGy"+
+"pHIsF81bdVONV+/EMIKEB9oa3iDYXWXjLRhBisb/7NzmOgXHmb63e0thT4WIf7SI"+
+"I7lFcYRLUxidbqy1Y1BUz3sGTr2dKQIDAQABo1AwTjAdBgNVHQ4EFgQUpc/58nZq"+
+"ZiB/OlEVp3Ytdw2hXW8wHwYDVR0jBBgwFoAUpc/58nZqZiB/OlEVp3Ytdw2hXW8w"+
+"DAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAX7DRa4YlkadD6J4wTzwM"+
+"IrlLHb/Ex1wKUao6SGDudLt695NXAVIsW0vW9uWcfWEBquMlHWAzePKEq7nCgGXV"+
+"d2bLLS+XBeVZkkWoNfkTd1ock1nDnOK586zgepVyc4zDnPXRU6vxdmLtVKZT8CRF"+
+"09E6ns992G8WoXIXl6V2uTfgFseIrl1eg95rDR9qdB+dt0Lf9zhSPoVlCHVGNxMt"+
+"U0oUnhzQQzi6c1RQ1m5i7LLniDJXdkO759RPTK+Pm8hFUZ1RoFhTYbm9GxF+6asD"+
+"oae49VIz4xr8CRvwGMdzqVXFR7oOSy4Y0VuGu9gCdTL3qWMti+W7YZ4g99DyOkqx"+
+"/Q=="+
+"-----END CERTIFICATE-----";
+    var jws = new KJUR.jws.JWS();
+    jws.isSafeJSONString = function(s, h, p) {
+        var o = null;
+        try {
+    	o = jsonParse(s);
+    	if (typeof o != "object") return 0;
+    	if (o.constructor === Array) return 0;
+    	if (h) h[p] = o;
+    	return 1;
+        } catch (ex) {
+    	return 0;
+        }
+    };
+    var result = jws.verifyJWSByPemX509Cert(sJWS, sPemX509Cert);
+    $scope.resultado = result;
+})
 ;

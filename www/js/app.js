@@ -85,6 +85,17 @@ angular.module('ruta', [
         }
     })
 
+    .state('app.jws', {
+        url: "/jws",
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "templates/jws.html",
+                controller: 'JWSCtrl'
+            }
+        }
+    })
+
     .state('app.detail', {
         url: "/list/:listId",
         views: {
