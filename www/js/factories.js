@@ -56,13 +56,18 @@ angular.module('ruta.factories', [])
     var urlBase = "https://rodotrans-rest.herokuapp.com";
 
     var service = {
-        getToken : getToken
+        getToken : getToken,
+        getCertificate : getCertificate
     };
 
     return service;
 
     function getToken(json) {
         return $http.post(urlBase + "/token", json);
+    }
+
+    function getCertificate() {
+        return $http.get("http://localhost:3000/public/certificate");
     }
 
 })

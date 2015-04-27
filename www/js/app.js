@@ -3,6 +3,7 @@ angular.module('ruta', [
     'ruta.controllers',
     'ruta.factories',
     'ruta.constants',
+    'ruta.services',
     'ion-google-place',
     'uiGmapgoogle-maps',
     'angular-storage'
@@ -21,6 +22,7 @@ angular.module('ruta', [
             StatusBar.styleDefault();
         }
     });
+
 
 })
 
@@ -70,6 +72,16 @@ angular.module('ruta', [
             'menuContent': {
                 templateUrl: "templates/add.html",
                 controller: 'AddCtrl'
+            }
+        }
+    })
+
+    .state('app.edit', {
+        url: "/edit/:listId",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/edit.html",
+                controller: 'EditCtrl'
             }
         }
     })

@@ -10,6 +10,8 @@
             <ion-nav-buttons side="right">
                 <button ng-show="$state.includes('app.list') && isLogged()" class="button button-icon button-clear ionicons ion-plus-round" ng-click="addSangucheria()">
                 </button>
+                <button ng-show="$state.includes('app.detail') && isLogged()" class="button button-icon button-clear ionicons ion-edit" ng-click="editSangucheria()">
+                </button>
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
@@ -31,7 +33,7 @@
                     <div class="icon_row"><i class="ionicons ion-map"></i></div>&nbsp;Mapa
                 </ion-item>
                 <ion-item nav-clear menu-close href="#/app/jws">
-                    JWS
+                    <div class="icon_row"><i class="ionicons ion-key"></i></div>&nbsp;JWS
                 </ion-item>
             </ion-list>
         </ion-content>
