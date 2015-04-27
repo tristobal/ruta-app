@@ -184,18 +184,6 @@ $scope.markers = markersArray;
 "/Q=="+
 "-----END CERTIFICATE-----";
     var jws = new KJUR.jws.JWS();
-    jws.isSafeJSONString = function(s, h, p) {
-        var o = null;
-        try {
-    	o = jsonParse(s);
-    	if (typeof o != "object") return 0;
-    	if (o.constructor === Array) return 0;
-    	if (h) h[p] = o;
-    	return 1;
-        } catch (ex) {
-    	return 0;
-        }
-    };
     var result = jws.verifyJWSByPemX509Cert(sJWS, sPemX509Cert);
     $scope.resultado = result;
 })

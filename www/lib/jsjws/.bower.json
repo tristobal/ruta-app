@@ -1,15 +1,14 @@
 {
   "name": "jsjws",
   "homepage": "https://github.com/kjur/jsjws",
-  "version": "3.2.0",
-  "_release": "3.2.0",
+  "version": "3.2.2",
+  "_release": "3.2.2",
   "_resolution": {
     "type": "version",
-    "tag": "3.2.0",
-    "commit": "3b2f589970278b875abcb1a954716523132ef8e1"
+    "tag": "3.2.2",
+    "commit": "3220a8996f76a4ddca6457eb444ea8946763b7b5"
   },
   "_source": "git://github.com/kjur/jsjws.git",
   "_target": "~3.2.0",
-  "_originalSource": "jsjws",
-  "_direct": true
+  "_originalSource": "jsjws"
 }
