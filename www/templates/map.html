@@ -1,7 +1,19 @@
 <ion-view view-title="Mapa">
     <ion-content scroll="false" data-tap-disabled="true">
         <div id="map_canvas">
-            <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
+        <script type="text/ng-template" id="control.tpl.html">
+            <button class="btn btn-sm btn-primary" ng-click="centerOnMe()">Center on me</button>
+        </script>
+            <ui-gmap-google-map
+                center="map.center"
+                zoom="map.zoom"
+                draggable="true"
+                options="options"
+                bounds="map.bounds"
+                events="map.events"
+                pan="true"
+            >
+                <ui-gmap-map-control template="control.tpl.html" position="top-right" controller="MapCtrl" index="-1"></ui-gmap-map-control>
 
                 <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" click="onClick()">
                     <ui-gmap-windows show="show">

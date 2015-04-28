@@ -116,7 +116,7 @@ angular.module('ruta.controllers', [])
     };
 })
 
-.controller('EditCtrl', function($scope, LocalesFactory, $state, $stateParams) {
+.controller('EditCtrl', function($scope, LocalesFactory, $state, $stateParams, $ionicHistory) {
     $scope.local = {};
     var listid = $stateParams.listId;
     $scope.local = LocalesFactory.getById( listid );
@@ -146,6 +146,7 @@ angular.module('ruta.controllers', [])
     };
 
     $scope.save = function() {
+        $ionicHistory.nextViewOptions({ disableBack: true });
         $scope.local.lat = $scope.marker.coords.latitude;
         $scope.local.long = $scope.marker.coords.longitude;
         LocalesFactory.save($scope.local);
@@ -164,19 +165,26 @@ angular.module('ruta.controllers', [])
     };
 })
 
-.controller('MapCtrl', function($scope, LocalesFactory, $ionicPopup, $state) {
+.controller('MapCtrl', function($scope, LocalesFactory, $ionicPopup, $state, $ionicLoading, uiGmapGoogleMapApi, uiGmapIsReady, $timeout) {
+
     $scope.locales = LocalesFactory.getAll();
+
     $scope.map = {
         center: {
             latitude: -33.4374848,
             longitude: -70.63586149999998
         },
+        //control: {},
         zoom: 16,
-        bounds: {}
+        bounds: {},
+        options: {
+            streetViewControl: false,
+            panControl: false,
+            maxZoom: 20,
+            minZoom: 3
+        }
     };
-    /*$scope.options = {
-        scrollwheel: false
-    };*/
+
 
     $scope.markers = [];
 
@@ -199,6 +207,31 @@ angular.module('ruta.controllers', [])
     }
     $scope.markers = markersArray;
 
+    $scope.centerOnMe = function() {
+        if ($scope.gmap != null) {
+            if(!$scope.map) {
+                return;
+            }
+            $scope.loading = $ionicLoading.show({
+                showBackdrop: false
+            });
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                console.log(pos.coords.latitude + "|"+pos.coords.longitude);
+                $scope.gmap.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+                $ionicLoading.hide();
+            }, function(error) {
+                alert('Unable to get location: ' + error.message);
+            });
+        } else {
+            console.log("Sorry mate. $scope.gmap == null");
+        }
+    };
+
+    $scope.map.control = {}; // this is filled when google map is initiated
+    uiGmapIsReady.promise().then(function (maps) {
+        console.log("uiGmapIsReady");
+        $scope.gmap = maps[0].map;
+    });
 })
 
 
