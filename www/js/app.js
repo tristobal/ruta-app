@@ -110,6 +110,7 @@ angular.module('ruta', [
 
     .state('app.detail', {
         url: "/list/:listId",
+        cache: false,
         views: {
             'menuContent': {
                 templateUrl: "templates/detail.html",

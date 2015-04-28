@@ -130,22 +130,27 @@ angular.module('ruta.controllers', [])
     };
 
     $scope.marker = {
+        id: 0,
         coords: {
             latitude: $scope.local.lat,
             longitude: $scope.local.long
         },
-        title: $scope.local.nombre,
-        id: $scope.local.id,
-        show: false,
-        options: { draggable: true }
+        options: { draggable: true },
+        events: {
+            dragend: function (marker, eventName, args) {
+                var lat = marker.getPosition().lat();
+                var lon = marker.getPosition().lng();
+                console.log("lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude);
+            }
+        }
     };
-    /*$scope.save = function() {
-        $scope.local.lat = $scope.local.location.geometry.location.k;
-        $scope.local.long = $scope.local.location.geometry.location.D;
-        $scope.marked = false;
-        LocalesFactory.add($scope.local);
+
+    $scope.save = function() {
+        $scope.local.lat = $scope.marker.coords.latitude;
+        $scope.local.long = $scope.marker.coords.longitude;
+        LocalesFactory.save($scope.local);
         $state.go("app.list");
-    };*/
+    };
 })
 
 .controller('AddCtrl', function($scope, LocalesFactory, $state) {
