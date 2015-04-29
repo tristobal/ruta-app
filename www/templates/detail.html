@@ -6,10 +6,22 @@
                     <input type="checkbox" ng-checked="local.marked">
                 </label>
                 {{local.nombre}}
+                <!--
+                <li class="item item-checkbox">
+                     <label class="checkbox">
+                       <input type="checkbox">
+                     </label>
+                     Flux Capacitor
+                  </li>
+                -->
             </div>
             <div class="item item-body">
+                <script type="text/ng-template" id="control.tpl.html">
+                    <div class="circle" ng-click="centerOnMe()"><i class="ionicons ion-android-locate font_center_on_me"></i></div>
+                </script>
                 <div id="map_canvas" style="height: 300px;">
                     <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options">
+                        <ui-gmap-map-control template="control.tpl.html" position="top-right" index="-1" controller="DetailCtrl"></ui-gmap-map-control>
                         <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
                         </ui-gmap-marker>
                     </ui-gmap-google-map>

@@ -2,7 +2,7 @@
     <ion-content scroll="false" data-tap-disabled="true">
         <div id="map_canvas">
         <script type="text/ng-template" id="control.tpl.html">
-            <button class="btn btn-sm btn-primary" ng-click="centerOnMe()">Center on me</button>
+            <div class="circle" ng-click="centerOnMe()"><i class="ionicons ion-android-locate font_center_on_me"></i></div>
         </script>
             <ui-gmap-google-map
                 center="map.center"
@@ -13,7 +13,7 @@
                 events="map.events"
                 pan="true"
             >
-                <ui-gmap-map-control template="control.tpl.html" position="top-right" controller="MapCtrl" index="-1"></ui-gmap-map-control>
+                <ui-gmap-map-control template="control.tpl.html" position="top-right" index="-1" controller="MapCtrl"></ui-gmap-map-control>
 
                 <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" click="onClick()">
                     <ui-gmap-windows show="show">

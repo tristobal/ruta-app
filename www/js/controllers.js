@@ -91,7 +91,7 @@ angular.module('ruta.controllers', [])
     };
 })
 
-.controller('DetailCtrl', function($scope, $stateParams, LocalesFactory, SharedProperties) {
+.controller('DetailCtrl', function($scope, $stateParams, LocalesFactory, SharedProperties, uiGmapIsReady, $ionicLoading) {
     var listid = $stateParams.listId;
     SharedProperties.setIdLocal( listid );
     $scope.local = LocalesFactory.getById( listid );
@@ -114,6 +114,33 @@ angular.module('ruta.controllers', [])
         id: $scope.local.id,
         show: false
     };
+
+
+    $scope.centerOnMe = function() {
+        if ($scope.gmap != null) {
+            if(!$scope.map) {
+                return;
+            }
+            $scope.loading = $ionicLoading.show({
+                showBackdrop: false
+            });
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                console.log(pos.coords.latitude + "|"+pos.coords.longitude);
+                $scope.gmap.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+                $ionicLoading.hide();
+            }, function(error) {
+                alert('Unable to get location: ' + error.message);
+            });
+        } else {
+            console.log("Sorry mate. $scope.gmap == null");
+        }
+    };
+
+    $scope.map.control = {}; // this is filled when google map is initiated
+    uiGmapIsReady.promise().then(function (maps) {
+        console.log("uiGmapIsReady");
+        $scope.gmap = maps[0].map;
+    });
 })
 
 .controller('EditCtrl', function($scope, LocalesFactory, $state, $stateParams, $ionicHistory) {
