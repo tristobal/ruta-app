@@ -58,3 +58,8 @@
     color: #4d90fe;
     font-size: xx-large;
 }
+
+.card .checkbox {
+    vertical-align: middle;
+    margin-bottom: 5px;
+}
