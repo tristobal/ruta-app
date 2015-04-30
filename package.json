@@ -1,6 +1,6 @@
 {
   "name": "ruta",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "ruta: La Ruta del Sanguche App",
   "dependencies": {
     "gulp": "^3.5.6",
