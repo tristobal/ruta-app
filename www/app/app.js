@@ -1,9 +1,16 @@
 angular.module('ruta', [
     'ionic',
-    'ruta.controllers',
-    'ruta.factories',
+    'ruta.menu',
+    'ruta.loginfactory',
+    'ruta.localesfactory',
     'ruta.constants',
     'ruta.services',
+    'ruta.jwt',
+    'ruta.add',
+    'ruta.detail',
+    'ruta.edit',
+    'ruta.list',
+    'ruta.map',
     'ion-google-place',
     'uiGmapgoogle-maps',
     'angular-storage'
@@ -43,47 +50,8 @@ angular.module('ruta', [
     .state('app', {
         url: "/app",
         abstract: true,
-        templateUrl: "templates/menu.html",
-        controller: 'AppCtrl'
-    })
-
-    .state('app.search', {
-        url: "/search",
-        views: {
-            'menuContent': {
-                templateUrl: "templates/search.html"
-            }
-        }
-    })
-
-    .state('app.map', {
-        url: "/map",
-        views: {
-            'menuContent': {
-                templateUrl: "templates/map.html",
-                controller: "MapCtrl"
-            }
-        }
-    })
-
-    .state('app.add', {
-        url: "/add",
-        views: {
-            'menuContent': {
-                templateUrl: "templates/add.html",
-                controller: 'AddCtrl'
-            }
-        }
-    })
-
-    .state('app.edit', {
-        url: "/edit/:listId",
-        views: {
-            'menuContent': {
-                templateUrl: "templates/edit.html",
-                controller: 'EditCtrl'
-            }
-        }
+        templateUrl: "app/components/menu/menu.html",
+        controller: 'MenuCtrl'
     })
 
     .state('app.list', {
@@ -91,19 +59,8 @@ angular.module('ruta', [
         cache: false,
         views: {
             'menuContent': {
-                templateUrl: "templates/list.html",
+                templateUrl: "app/components/listado/list.html",
                 controller: 'ListCtrl'
-            }
-        }
-    })
-
-    .state('app.jws', {
-        url: "/jws",
-        cache: false,
-        views: {
-            'menuContent': {
-                templateUrl: "templates/jws.html",
-                controller: 'JWSCtrl'
             }
         }
     })
@@ -113,11 +70,53 @@ angular.module('ruta', [
         cache: false,
         views: {
             'menuContent': {
-                templateUrl: "templates/detail.html",
+                templateUrl: "app/components/listado/detail.html",
                 controller: 'DetailCtrl'
             }
         }
+    })
+
+    .state('app.edit', {
+        url: "/edit/:listId",
+        views: {
+            'menuContent': {
+                templateUrl: "app/components/listado/edit.html",
+                controller: 'EditCtrl'
+            }
+        }
+    })
+
+    .state('app.add', {
+        url: "/add",
+        views: {
+            'menuContent': {
+                templateUrl: "app/components/listado/add.html",
+                controller: 'AddCtrl'
+            }
+        }
+    })
+
+    .state('app.map', {
+        url: "/map",
+        views: {
+            'menuContent': {
+                templateUrl: "app/components/mapa/map.html",
+                controller: "MapCtrl"
+            }
+        }
+    })
+
+    .state('app.jws', {
+        url: "/jws",
+        cache: false,
+        views: {
+            'menuContent': {
+                templateUrl: "app/components/jwt/jws.html",
+                controller: 'JWSCtrl'
+            }
+        }
     });
+
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/list');
