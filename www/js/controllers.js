@@ -91,15 +91,23 @@ angular.module('ruta.controllers', [])
     };
 })
 
-.controller('DetailCtrl', function($scope, $stateParams, LocalesFactory, SharedProperties, uiGmapIsReady, $ionicLoading) {
+.controller('DetailCtrl', function($scope, $stateParams, LocalesFactory, SharedProperties, uiGmapIsReady, $ionicLoading, FUENTE_ALEMANA) {
     var listid = $stateParams.listId;
     SharedProperties.setIdLocal( listid );
     $scope.local = LocalesFactory.getById( listid );
 
+    var center_lat = FUENTE_ALEMANA.lat;
+    var center_long = FUENTE_ALEMANA.long;
+
+    if( typeof $scope.local.lat !== "undefined" ) {
+        center_lat = $scope.local.lat;
+        center_long = $scope.local.long;
+    }
+
     $scope.map = {
         center: {
-            latitude: $scope.local.lat,
-            longitude: $scope.local.long
+            latitude: center_lat,
+            longitude: center_long
         },
         zoom: 16,
         bounds: {}
@@ -143,7 +151,7 @@ angular.module('ruta.controllers', [])
     });
 })
 
-.controller('EditCtrl', function($scope, LocalesFactory, $state, $stateParams, $ionicHistory) {
+.controller('EditCtrl', function($scope, LocalesFactory, $state, $stateParams, $ionicHistory, $ionicPopup) {
     $scope.local = {};
     var listid = $stateParams.listId;
     $scope.local = LocalesFactory.getById( listid );
@@ -179,13 +187,27 @@ angular.module('ruta.controllers', [])
         LocalesFactory.save($scope.local);
         $state.go("app.list");
     };
+
+    $scope.delete = function() {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Advertencia',
+            template: '¿Estás seguro de que quieres eliminar este local?'
+        });
+        confirmPopup.then(function(res) {
+            if(res) {
+                $ionicHistory.nextViewOptions({ disableBack: true });
+                LocalesFactory.delete( listid );
+                $state.go("app.list");
+            }
+        });
+    };
 })
 
 .controller('AddCtrl', function($scope, LocalesFactory, $state) {
     $scope.local = {};
     $scope.add = function() {
-        $scope.local.lat = $scope.local.location.geometry.location.k;
-        $scope.local.long = $scope.local.location.geometry.location.D;
+        $scope.local.lat = $scope.local.location.geometry.location.lat();
+        $scope.local.long = $scope.local.location.geometry.location.lng();
         $scope.marked = false;
         LocalesFactory.add($scope.local);
         $state.go("app.list");
@@ -260,7 +282,6 @@ angular.module('ruta.controllers', [])
         $scope.gmap = maps[0].map;
     });
 })
-
 
 .controller('JWSCtrl', function($scope, LoginFactory) {
     $scope.resultado = "";

@@ -26,8 +26,15 @@ angular.module('ruta.factories', [])
             if(localesString) {
                 locales = angular.fromJson(localesString);
             }
-            var pos = id - 1;
-            return locales[pos];
+
+            for (var i = 0; i < locales.length; i++) {
+                if (parseInt(id) === locales[i].id) {
+                    return locales[i];
+                }
+            }
+
+            //var pos = id - 1;
+            //return locales[pos];
         },
         save: function(local) {
             var localesString = window.localStorage['locales'];
@@ -43,6 +50,19 @@ angular.module('ruta.factories', [])
                     locales[i].location = local.location;
                     locales[i].marked = local.marked;
                     locales[i].notas = local.notas;
+                }
+            }
+            window.localStorage['locales'] = JSON.stringify(locales);
+        },
+        delete: function(id) {
+            var localesString = window.localStorage['locales'];
+            var locales = [];
+            if(localesString) {
+                locales = angular.fromJson(localesString);
+            }
+            for (var i = 0; i < locales.length; i++) {
+                if (parseInt(id) === locales[i].id) {
+                    locales.splice(i,1);
                 }
             }
             window.localStorage['locales'] = JSON.stringify(locales);
