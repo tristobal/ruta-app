@@ -5,15 +5,15 @@
     .module('ruta.map', [])
     .controller('MapCtrl', mapCtrl);
 
-    mapCtrl.$inject = ['$scope', 'LocalesFactory', '$ionicPopup', '$state', '$ionicLoading', 'uiGmapGoogleMapApi', 'uiGmapIsReady', '$timeout'];
-    function mapCtrl($scope, LocalesFactory, $ionicPopup, $state, $ionicLoading, uiGmapGoogleMapApi, uiGmapIsReady, $timeout) {
+    mapCtrl.$inject = ['$scope', 'LocalesFactory', '$ionicPopup', '$state', '$ionicLoading', 'uiGmapGoogleMapApi', 'uiGmapIsReady', '$timeout', 'RUTA_CONSTANTS'];
+    function mapCtrl($scope, LocalesFactory, $ionicPopup, $state, $ionicLoading, uiGmapGoogleMapApi, uiGmapIsReady, $timeout, RUTA_CONSTANTS) {
 
         $scope.locales = LocalesFactory.getAll();
 
         $scope.map = {
             center: {
-                latitude: -33.4374848,
-                longitude: -70.63586149999998
+                latitude: RUTA_CONSTANTS.fuente_alemana_lat,
+                longitude: RUTA_CONSTANTS.fuente_alemana_long
             },
             zoom: 16,
             bounds: {},

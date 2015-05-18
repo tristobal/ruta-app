@@ -1,0 +1,45 @@
+<ion-view view-title="Perfil">
+    <ion-content>
+        <form name="profileForm" ng-submit="updateProfile()" novalidate>
+            <div class="list">
+                <label class="item item-input item-stacked-label" ng-class="{'has-errors': profileForm.email.$invalid, 'no-errors': profileForm.email.$valid}">
+                    <span class="input-label">Email</span>
+                    <input type="email" name="email" ng-model="profileData.email" required>
+                </label>
+                <label class="item item-input item-stacked-label" ng-class="{'has-errors': profileForm.nickname.$invalid, 'no-errors': profileForm.nickname.$valid}">
+                    <span class="input-label">Nickname</span>
+                    <input type="text" name="nickname" ng-model="profileData.nickname" ng-minlength="3" ng-maxlength="20" required>
+                </label>
+                <label class="item item-input item-stacked-label" ng-class="{'has-errors': profileForm.password.$invalid, 'no-errors': profileForm.password.$valid}">
+                    <span class="input-label">Password</span>
+                    <input type="password" name="password" ng-model="profileData.password" ng-minlength="4" required>
+                </label>
+                <label class="item item-input item-stacked-label" ng-class="{'has-errors': profileForm.new_password.$invalid, 'no-errors': profileForm.new_password.$valid}">
+                    <span class="input-label">Nuevo Password</span>
+                    <input type="password" name="new_password" ng-model="profileData.new_password" ng-minlength="4" required>
+                </label>
+                <label class="item item-input item-stacked-label" ng-class="{'has-errors': profileForm.confirm_password.$invalid || profileForm.confirm_password.$error.passwordVerify, 'no-errors': profileForm.confirm_password.$valid}">
+                    <span class="input-label">
+                        Confirmar Nuevo Password
+                    </span>
+                    <div ng-show="profileForm.confirm_password.$error.passwordVerify">Los password no son iguales</div>
+                    <input type="password" name="confirm_password" ng-model="profileData.confirm_password" ng-minlength="4" password-verify="profileData.new_password" required>
+                </label>
+                <!--div class="item item-toggle">
+                    Notificaciones
+                    <label class="toggle toggle-positive">
+                        <input type="checkbox">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div-->
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <button class="button button-block button-positive" type="submit" ng-disabled='!profileForm.$valid'>Guardar</button>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

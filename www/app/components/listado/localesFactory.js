@@ -5,48 +5,55 @@
     .module('ruta.localesfactory', [])
     .factory('LocalesFactory', localesFactory);
 
-    function localesFactory() {
-        return {
-            getAll: function() {
-                var localesString = window.localStorage['locales'];
-                if(localesString) {
-                    return angular.fromJson(localesString);
-                } else {
-                    return [];
-                }
-            },
-            add: function(local) {
-                var localesString = window.localStorage['locales'];
-                var locales = [];
-                if(localesString) {
-                    locales = angular.fromJson(localesString);
-                }
-                local.id = locales.length + 1;
-                locales.push(local);
-                window.localStorage['locales'] = JSON.stringify(locales);
-            },
-            getById: function(id) {
-                var localesString = window.localStorage['locales'];
-                var locales = [];
-                if(localesString) {
-                    locales = angular.fromJson(localesString);
-                }
+    localesFactory.$inject =  ['$http', 'RUTA_CONSTANTS'];
+    function localesFactory($http, RUTA_CONSTANTS) {
 
-                for (var i = 0; i < locales.length; i++) {
-                    if (parseInt(id) === locales[i].id) {
-                        return locales[i];
-                    }
-                }
+        var service = {
+            getAll : getAll,
+            add : add,
+            getById : getById,
+            remove : remove,
+            save : save
+        };
 
-                //var pos = id - 1;
-                //return locales[pos];
-            },
-            save: function(local) {
-                var localesString = window.localStorage['locales'];
-                var locales = [];
-                if(localesString) {
-                    locales = angular.fromJson(localesString);
+        return service;
+
+        function getAll() {
+            return $http.post(RUTA_CONSTANTS.url_base + "/api/tasks/" + RUTA_CONSTANTS.id_list);
+        }
+
+        function add(local) {
+            var localesString = window.localStorage['locales'];
+            var locales = [];
+            if(localesString) {
+                locales = angular.fromJson(localesString);
+            }
+            local.id = locales.length + 1;
+            locales.push(local);
+            window.localStorage['locales'] = JSON.stringify(locales);
+        }
+
+        function getById(id) {
+            var localesString = window.localStorage['locales'];
+            var locales = [];
+            if(localesString) {
+                locales = angular.fromJson(localesString);
+            }
+
+            for (var i = 0; i < locales.length; i++) {
+                if (parseInt(id) === locales[i].id) {
+                    return locales[i];
                 }
+            }
+
+            //var pos = id - 1;
+            //return locales[pos];
+        }
+
+        function save(local) {
+            var localesString = window.localStorage['locales'];
+            var locales = [];
+            if(localesString) {
                 for (var i = 0; i < locales.length; i++) {
                     if (local.id === locales[i].id) {
                         locales[i].lat = local.lat;
@@ -58,20 +65,23 @@
                     }
                 }
                 window.localStorage['locales'] = JSON.stringify(locales);
-            },
-            delete: function(id) {
-                var localesString = window.localStorage['locales'];
-                var locales = [];
-                if(localesString) {
-                    locales = angular.fromJson(localesString);
-                }
-                for (var i = 0; i < locales.length; i++) {
-                    if (parseInt(id) === locales[i].id) {
-                        locales.splice(i,1);
-                    }
-                }
-                window.localStorage['locales'] = JSON.stringify(locales);
             }
-        };
+        }
+
+        function remove(id) {
+            var localesString = window.localStorage['locales'];
+            var locales = [];
+            if(localesString) {
+                locales = angular.fromJson(localesString);
+            }
+            for (var i = 0; i < locales.length; i++) {
+                if (parseInt(id) === locales[i].id) {
+                    locales.splice(i,1);
+                }
+            }
+            window.localStorage['locales'] = JSON.stringify(locales);
+        }
+
     }
+
 })();

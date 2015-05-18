@@ -3,14 +3,17 @@ angular.module('ruta', [
     'ruta.menu',
     'ruta.loginfactory',
     'ruta.localesfactory',
+    'ruta.profilefactory',
     'ruta.constants',
     'ruta.services',
+    'ruta.directives',
     'ruta.jwt',
     'ruta.add',
     'ruta.detail',
     'ruta.edit',
     'ruta.list',
     'ruta.map',
+    'ruta.profile',
     'ion-google-place',
     'uiGmapgoogle-maps',
     'angular-storage'
@@ -102,6 +105,16 @@ angular.module('ruta', [
             'menuContent': {
                 templateUrl: "app/components/mapa/map.html",
                 controller: "MapCtrl"
+            }
+        }
+    })
+
+    .state('app.profile', {
+        url: "/profile",
+        views: {
+            'menuContent': {
+                templateUrl: "app/components/perfil/profile.html",
+                controller: "ProfileCtrl"
             }
         }
     })

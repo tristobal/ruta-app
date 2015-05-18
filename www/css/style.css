@@ -63,3 +63,11 @@
     vertical-align: middle;
     margin-bottom: 5px;
 }
+
+.has-errors {
+  border-bottom: 3px solid #B83E2C;
+}
+
+.no-errors {
+  border-bottom: 3px solid green;
+}

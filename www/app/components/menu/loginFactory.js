@@ -5,10 +5,8 @@
     .module('ruta.loginfactory', [])
     .factory('LoginFactory', loginFactory);
 
-    loginFactory.$inject =  ['$http'];
-    function loginFactory($http) {
-        //var urlBase = "http://localhost:5000";
-        var urlBase = "https://rodotrans-rest.herokuapp.com";
+    loginFactory.$inject =  ['$http', 'RUTA_CONSTANTS'];
+    function loginFactory($http, RUTA_CONSTANTS) {
 
         var service = {
             getToken : getToken,
@@ -18,11 +16,11 @@
         return service;
 
         function getToken(json) {
-            return $http.post(urlBase + "/token", json);
+            return $http.post(RUTA_CONSTANTS.url_base + "/public/token", json);
         }
 
         function getCertificate() {
-            return $http.get("http://localhost:3000/public/certificate");
+            return $http.get(RUTA_CONSTANTS.url_base + "/public/certificate");
         }
     }
 })();

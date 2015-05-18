@@ -43,7 +43,7 @@
                 showBackdrop: false
             });
 
-            $scope.loginData.username = $scope.loginData.username.toLowerCase();
+            $scope.loginData.email = $scope.loginData.email.toLowerCase();
 
             LoginFactory.getToken($scope.loginData)
             .success(function (data) {

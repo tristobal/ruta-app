@@ -5,15 +5,15 @@
     .module('ruta.detail', [])
     .controller('DetailCtrl', detailCtrl);
 
-    detailCtrl.$inject = ['$scope', '$stateParams', 'LocalesFactory', 'SharedProperties', 'uiGmapIsReady', '$ionicLoading', 'FUENTE_ALEMANA'];
-    function detailCtrl($scope, $stateParams, LocalesFactory, SharedProperties, uiGmapIsReady, $ionicLoading, FUENTE_ALEMANA) {
+    detailCtrl.$inject = ['$scope', '$stateParams', 'LocalesFactory', 'SharedProperties', 'uiGmapIsReady', '$ionicLoading', 'RUTA_CONSTANTS'];
+    function detailCtrl($scope, $stateParams, LocalesFactory, SharedProperties, uiGmapIsReady, $ionicLoading, RUTA_CONSTANTS) {
         var listid = $stateParams.listId;
         SharedProperties.setIdLocal( listid );
         $scope.local = LocalesFactory.getById( listid );
 
-        var center_lat = FUENTE_ALEMANA.lat;
-        var center_long = FUENTE_ALEMANA.long;
-
+        var center_lat = RUTA_CONSTANTS.fuente_alemana_lat;
+        var center_long = RUTA_CONSTANTS.fuente_alemana_long;
+        console.log( RUTA_CONSTANTS.fuente_alemana_lat );
         if( typeof $scope.local.lat !== "undefined" ) {
             center_lat = $scope.local.lat;
             center_long = $scope.local.long;
