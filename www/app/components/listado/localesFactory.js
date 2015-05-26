@@ -19,10 +19,13 @@
         return service;
 
         function getAll() {
-            return $http.post(RUTA_CONSTANTS.url_base + "/api/tasks/" + RUTA_CONSTANTS.id_list);
+            return $http.get(RUTA_CONSTANTS.url_base + "/api/tasks/" + RUTA_CONSTANTS.id_list);
         }
 
         function add(local) {
+            return $http.post(RUTA_CONSTANTS.url_base + "/api/task/", local);
+
+            /*
             var localesString = window.localStorage['locales'];
             var locales = [];
             if(localesString) {
@@ -31,9 +34,12 @@
             local.id = locales.length + 1;
             locales.push(local);
             window.localStorage['locales'] = JSON.stringify(locales);
+            */
         }
 
         function getById(id) {
+            return $http.get(RUTA_CONSTANTS.url_base + "/api/task/" + id);
+            /*
             var localesString = window.localStorage['locales'];
             var locales = [];
             if(localesString) {
@@ -48,6 +54,7 @@
 
             //var pos = id - 1;
             //return locales[pos];
+            */
         }
 
         function save(local) {

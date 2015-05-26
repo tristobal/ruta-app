@@ -7,7 +7,16 @@
 
     listCtrl.$inject = ['$scope', 'LocalesFactory', '$state'];
     function listCtrl($scope, LocalesFactory, $state) {
-        $scope.list = LocalesFactory.getAll();
+        $scope.list = [];
+
+        LocalesFactory.getAll()
+        .success(function (data) {
+            $scope.list = data;
+        })
+        .error(function (err) {
+            console.log("Error = " + err);
+        });
+
         $scope.seeDetail = function(input) {
             $state.go("app.detail",  {"listId" : input} );
         };

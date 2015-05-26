@@ -82,8 +82,8 @@
         };
 
         $scope.editSangucheria = function() {
-            var listId = SharedProperties.getIdLocal();
-            $state.go("app.edit", {"listId" : listId});
+            var local = SharedProperties.getLocal();
+            $state.go("app.edit", {"listId" : local.id});
         };
     }
 })();

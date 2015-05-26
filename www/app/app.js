@@ -19,7 +19,7 @@ angular.module('ruta', [
     'angular-storage'
 ])
 
-.run(function($ionicPlatform, $rootScope, $state) {
+.run(function($ionicPlatform, $rootScope, $state, store, LoginFactory, SharedProperties, $ionicPopup) {
     $rootScope.$state = $state;
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -34,6 +34,85 @@ angular.module('ruta', [
     });
 
 
+    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+        //Validar token expirado solo si este existe
+        var token = store.get('jwt');
+        if (token) {
+            var expiration = SharedProperties.getTokenExpiration();
+            var currentTime = parseInt(Math.floor(Date.now() / 1000));
+            if ( currentTime >= expiration) {
+                var alertExpired = $ionicPopup.alert({
+                    title: 'Error',
+                    template: 'Sesión expirada'
+                });
+                alertExpired.then(function(res) {
+                    store.remove('jwt');
+                    //$state.go("app.list");
+                });
+            }
+        }
+
+    });
+
+
+    /*
+     * 1.-   Obtener el certificado para validar el token.
+     * 2.-   Preguntar si existe el token.
+     * 2.1.- Validar el token.
+     * 2.2.- Guardar el id del usuario asociado al token.
+     * 2.3.- Validar expiración de la sesión.
+     */
+    $rootScope.validacionInicial = function() {
+        console.log("Obteniendo certificado...");
+
+        LoginFactory.getCertificate()
+        .success(function (data) {
+            console.log("Certificado obtenido");
+            store.set('certificate', data.certificate);
+
+            var token = store.get('jwt');
+            if (token) {
+                //@TODO Sacar este log imbécil
+                console.log("token = " + token);
+                var jws = new KJUR.jws.JWS();
+                var result = jws.verifyJWSByPemX509Cert(token, data.certificate);
+                if (result) {
+                    var jswPayloads = decodeURIComponent(escape(window.atob( jws.parsedJWS.payloadB64U )));
+                    var payLoads = JSON.parse(jswPayloads);
+                    SharedProperties.setIdUser(payLoads.sub);
+                    SharedProperties.setTokenExpiration(payLoads.exp);
+
+                    var expiration = SharedProperties.getTokenExpiration();
+                    var currentTime = parseInt(Math.floor(Date.now() / 1000));
+
+                    //console.log("TOKEN: " + expiration + "\nNOW:   " + currentTime);
+                    if ( currentTime >= expiration) {
+                        var alertExpired = $ionicPopup.alert({
+                            title: 'Error',
+                            template: 'Sesión expirada'
+                        });
+                        alertExpired.then(function(res) {
+                            store.remove('jwt');
+                            $state.go("app.list");
+                        });
+                    }
+                } else {
+                    var alertInvalid = $ionicPopup.alert({
+                        title: 'Error',
+                        template: 'Token inválido'
+                    });
+                    alertInvalid.then(function(res) {
+                        store.remove('jwt');
+                        $state.go("app.list");
+                    });
+                }
+            }
+        })
+        .error(function (err) {
+            console.log("Error al obtener certificado. " + err);
+        });
+
+    };
 })
 
 .directive('stopEvent', function () {
@@ -47,7 +126,7 @@ angular.module('ruta', [
     };
 })
 
-.config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
+.config(function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider, $httpProvider) {
     $stateProvider
 
     .state('app', {
@@ -133,6 +212,23 @@ angular.module('ruta', [
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/list');
+
+    $httpProvider.interceptors.push(['$q', function($q) {
+        return {
+            request: function(httpConfig) {
+                var token = localStorage.getItem('jwt');
+                if (token) {
+                    //Solución parche por las comillas de Localstorage
+                    token = token.replace(/(^\")|("$)/gi, "");
+                    httpConfig.headers['x-access-token'] = token;
+                }
+                return httpConfig;
+            },
+            responseError: function(response) {
+                return $q.reject(response);
+            }
+        };
+    }]);
 
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es',

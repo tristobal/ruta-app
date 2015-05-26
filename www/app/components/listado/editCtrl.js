@@ -5,11 +5,13 @@
     .module('ruta.edit', [])
     .controller('EditCtrl', editCtrl);
 
-    editCtrl.$inject = ['$scope', 'LocalesFactory', '$state', '$stateParams', '$ionicHistory', '$ionicPopup'];
-    function editCtrl($scope, LocalesFactory, $state, $stateParams, $ionicHistory, $ionicPopup) {
+    editCtrl.$inject = ['$scope', 'LocalesFactory', '$state', '$stateParams', '$ionicHistory', '$ionicPopup', 'SharedProperties'];
+    function editCtrl($scope, LocalesFactory, $state, $stateParams, $ionicHistory, $ionicPopup, SharedProperties) {
         $scope.local = {};
         var listid = $stateParams.listId;
-        $scope.local = LocalesFactory.getById( listid );
+        //$scope.local = LocalesFactory.getById( listid );
+        $scope.local = SharedProperties.getLocal();
+        console.log($scope.local);
         $scope.map = {
             center: {
                 latitude: $scope.local.lat,
@@ -30,7 +32,7 @@
                 dragend: function (marker, eventName, args) {
                     var lat = marker.getPosition().lat();
                     var lon = marker.getPosition().lng();
-                    console.log("lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude);
+                    console.log("lat: " + $scope.marker.coords.latitude + ' lon: ' + $scope.marker.coords.longitude);
                 }
             }
         };
