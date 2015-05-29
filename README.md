@@ -4,9 +4,9 @@ Ruta del Sanguche App
 Tentativa aplicación de la ruta del Sanguche.
 
 # Requisitos
-Tener Node.js instalado, luego ionic y cordova:
+Con Node.js instalado; instalar globalmente ionic, bower y cordova:
 ```sh
-npm install -g cordova ionic
+npm install -g cordova ionic bower
 ```
 
 # Instalación

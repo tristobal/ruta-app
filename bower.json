@@ -1,15 +1,15 @@
 {
-  "name": "ruta",
-  "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-rc.3"
-  },
-  "dependencies": {
-    "ion-google-place": "~0.0.1",
-    "angular-google-maps": "~2.0.19",
-    "a0-angular-storage": "~0.0.10",
-    "jsrsasign": "~4.7.0",
-    "crypto-js": "~3.1.4",
-    "jsjws": "~3.2.0"
-  }
+    "name": "ruta",
+    "private": "true",
+    "devDependencies": {
+        "ionic": "driftyco/ionic-bower#1.0.0"
+    },
+    "dependencies": {
+        "ion-google-place": "~0.0.1",
+        "angular-google-maps": "~2.0.19",
+        "a0-angular-storage": "~0.0.10",
+        "jsrsasign": "~4.7.0",
+        "crypto-js": "~3.1.4",
+        "jsjws": "~3.2.0"
+    }
 }

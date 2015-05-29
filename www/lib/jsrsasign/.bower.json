@@ -1,15 +1,14 @@
 {
   "name": "jsrsasign",
   "homepage": "https://github.com/kjur/jsrsasign",
-  "version": "4.7.0",
-  "_release": "4.7.0",
+  "version": "4.7.2",
+  "_release": "4.7.2",
   "_resolution": {
     "type": "version",
-    "tag": "4.7.0",
-    "commit": "4771fd7852c2939526f2e0021b17b6676779a8fc"
+    "tag": "4.7.2",
+    "commit": "3f3eb7defade217c93b21000437b4c17af2eb7a0"
   },
   "_source": "git://github.com/kjur/jsrsasign.git",
   "_target": "~4.7.0",
-  "_originalSource": "jsrsasign",
-  "_direct": true
+  "_originalSource": "jsrsasign"
 }
